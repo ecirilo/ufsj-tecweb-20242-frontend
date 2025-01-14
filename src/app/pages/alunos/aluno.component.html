@@ -1,0 +1,90 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <div class="p-toolbar-group-start">
+                    <div class="my-2">
+                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-primary mr-2" (click)="onOpenNew()"></button>
+                    </div>
+                </div>
+            </p-toolbar>
+
+            <p-table #dt
+                     dataKey="id"
+                     responsiveLayout="scroll"
+                     currentPageReportTemplate="Página {first} - {last}"
+                     [value]="alunos"
+                     [columns]="cols"
+                     [rows]="10"
+                     [paginator]="true"
+                     [rowsPerPageOptions]="[10,20,30]"
+                     [showCurrentPageReport]="true"
+                     [rowHover]="true">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="id">#</th>
+                        <th pSortableColumn="matricula">Matricula</th>
+                        <th pSortableColumn="nome">Nonme</th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-aluno>
+                    <tr>
+                        <td style="width:5%; min-width:10rem;"><span class="p-column-title">ID</span>
+                            {{ aluno.id }}
+                        </td>
+                        <td style="width:40%; min-width:10rem;">
+                            <span class="p-column-title">Matricula</span>
+                            {{ aluno.matricula }}
+                        </td>
+                        <td style="width:30%; min-width:8rem;">
+                            <span class="p-column-title">Nome</span>
+                            {{ aluno.nome }}
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="onEdit(aluno)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(aluno)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="paginatorright" let-state>
+                    Alunos: {{ state.totalRecords }}
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="updateDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field">
+                    <label for="name">Matricula</label>
+                    <input type="text" pInputText id="matricula" [(ngModel)]="aluno.matricula" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !aluno.matricula}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !aluno.matricula">Matricula é obrigatória.</small>
+                </div>
+                <div class="field">
+                    <label for="name">Nome</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="aluno.nome" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !aluno.nome}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !aluno.nome">Nome é obrigatório.</small>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="onHideDialog()"></button>
+                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="onSave()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="aluno">Esta certo em exluir o Aluno <b>{{ aluno.nome }}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="onConfirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

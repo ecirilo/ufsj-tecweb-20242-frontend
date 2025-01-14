@@ -1,0 +1,67 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <div class="p-toolbar-group-start">
+                    <div class="my-2">
+                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-primary mr-2" (click)="onOpenNew()"></button>
+                    </div>
+                </div>
+            </p-toolbar>
+
+            <p-table #dt
+                     dataKey="id"
+                     responsiveLayout="scroll"
+                     currentPageReportTemplate="Página {first} - {last}"
+                     [value]="palestras"
+                     [columns]="cols"
+                     [rows]="10"
+                     [paginator]="true"
+                     [rowsPerPageOptions]="[10,20,30]"
+                     [showCurrentPageReport]="true"
+                     [rowHover]="true">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="id">#</th>
+                        <th pSortableColumn="titulo">Título</th>
+                        <th pSortableColumn="palestrante">Palestrante</th>
+                        <th pSortableColumn="dataHora">Data/Hora</th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-palestra>
+                    <tr>
+                        <td style="width:5%; min-width:10rem;"><span class="p-column-title">ID</span>
+                            {{ palestra.id }}
+                        </td>
+                        <td style="width:40%; min-width:10rem;">
+                            <span class="p-column-title">Titulo</span>
+                            {{ palestra.titulo }}
+                        </td>
+                        <td style="width:30%; min-width:8rem;">
+                            <span class="p-column-title">Palestrante</span>
+                            {{ palestra.palestrante }}
+                        </td>
+                        <td style="width:15%; min-width:10rem;">
+                            <span class="p-column-title">Data/Hora</span>
+                            {{ palestra.dataHora | formatMediumDate }}
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="onEdit(palestra)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(palestra)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="paginatorright" let-state>
+                    Palestras: {{ state.totalRecords }}
+                </ng-template>
+            </p-table>
+        </div>
+
+        <app-palestra-update-dialog #palestraUpdateDialog ></app-palestra-update-dialog>
+        <app-palestra-delete-dialog #palestraDeleteDialog ></app-palestra-delete-dialog>
+    </div>
+</div>

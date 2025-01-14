@@ -1,0 +1,52 @@
+<p-dialog header="Palestras"
+          class="p-fluid"
+          [(visible)]="opened"
+          [style]="{width: '450px'}"
+          [modal]="true"
+          (onHide)="onClose()">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="name">Titulo</label>
+            <input type="text" pInputText id="name" [(ngModel)]="palestra.titulo" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !palestra.titulo}"/>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !palestra.titulo">Titulo é obrigatório.</small>
+        </div>
+        <div class="field">
+            <label for="description">Data/Hora</label>
+            <p-calendar
+                    inputId="dataHora"
+                    [ngModel]="palestra.dataHora"
+                    [showTime]="false"
+                    [hourFormat]="'24'" />
+        </div>
+        <div class="field">
+            <label for="description">Hora</label>
+            <p-calendar
+                    inputId="dataHora"
+                    [(ngModel)]="palestra.dataHora"
+                    [timeOnly]="true" />
+        </div>
+        <div class="field">
+            <label for="description">Descricao</label>
+            <textarea id="description" pInputTextarea [(ngModel)]="palestra.descricao" required rows="3" cols="20"></textarea>
+        </div>
+        <div class="field">
+            <label for="name">Palestrante</label>
+            <input pInputText
+                   required
+                   autofocus
+                   id="palestrante"
+                   type="text"
+                   [(ngModel)]="palestra.palestrante"
+                   [ngClass]="{'ng-invalid ng-dirty' : submitted && !palestra.palestrante}"/>
+            <small *ngIf="submitted && !palestra.palestrante"
+                   class="ng-dirty ng-invalid">
+                Palestrante é obrigatório.
+            </small>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="onClose()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="onSave()"></button>
+    </ng-template>
+</p-dialog>
