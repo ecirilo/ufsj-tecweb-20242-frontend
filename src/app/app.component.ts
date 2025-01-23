@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
-import {AppConfig, LayoutService} from "./layout/service/app.layout.service";
+import {AppConfig, LayoutService} from "./layout/shared/service/app.layout.service";
 
 @Component({
     selector: 'app-root',

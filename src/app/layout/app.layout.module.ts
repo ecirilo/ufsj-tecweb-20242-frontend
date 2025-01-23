@@ -9,13 +9,14 @@ import { BadgeModule } from 'primeng/badge';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { RippleModule } from 'primeng/ripple';
-import { AppMenuComponent } from './sidebar/menu/app.menu.component';
-import { AppMenuitemComponent } from './sidebar/menu/app.menuitem.component';
+import { AppMenuComponent } from './components/sidebar/menu/app.menu.component';
+import { AppMenuitemComponent } from './components/sidebar/menu/app.menuitem.component';
 import { RouterModule } from '@angular/router';
-import { AppTopBarComponent } from './topbar/app.topbar.component';
-import { AppFooterComponent } from './footer/app.footer.component';
-import { AppSidebarComponent } from "./sidebar/app.sidebar.component";
+import { AppTopBarComponent } from './components/topbar/app.topbar.component';
+import { AppFooterComponent } from './components/footer/app.footer.component';
+import { AppSidebarComponent } from "./components/sidebar/app.sidebar.component";
 import { AppLayoutComponent } from "./app.layout.component";
+import {AvatarModule} from "primeng/avatar";
 
 @NgModule({
     declarations: [
@@ -37,7 +38,8 @@ import { AppLayoutComponent } from "./app.layout.component";
         RadioButtonModule,
         InputSwitchModule,
         RippleModule,
-        RouterModule
+        RouterModule,
+        AvatarModule
     ],
     exports: [AppLayoutComponent]
 })

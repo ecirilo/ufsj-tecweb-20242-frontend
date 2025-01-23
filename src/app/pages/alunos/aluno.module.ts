@@ -17,11 +17,12 @@ import {RadioButtonModule} from 'primeng/radiobutton';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {DialogModule} from 'primeng/dialog';
 import {SharedModule} from "../../shared/shared.module";
+import {AlunoUpdateComponent} from "./components/aluno-update/aluno-update.component";
 
 @NgModule({
     imports: [
-        CommonModule,
         AlunoRoutingModule,
+        CommonModule,
         TableModule,
         FileUploadModule,
         FormsModule,
@@ -38,6 +39,6 @@ import {SharedModule} from "../../shared/shared.module";
         DialogModule,
         SharedModule
     ],
-    declarations: [AlunoComponent]
+    declarations: [AlunoComponent, AlunoUpdateComponent]
 })
 export class AlunoModule { }

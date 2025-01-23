@@ -27,33 +27,37 @@ export class PalestraComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.palestraService.getAll().subscribe((body: TPalestra[]): void => {
-            this.palestras = body;
-        });
-
         this.cols = [
             { field: 'id', header: 'id' },
             { field: 'titulo', header: 'Titulo' },
             { field: 'palestrante', header: 'Palestrante' },
             { field: 'dataHora', header: 'Data/Hora' },
         ];
+
+        this.fetchData();
     }
 
     onOpenNew(): void {
-        this.palestraUpdateDialog.open();
+        this.palestraUpdateDialog.open().subscribe((): void => {
+            this.fetchData();
+        });
     }
 
     onEdit(palestra: TPalestra): void {
-        this.palestraUpdateDialog.open(palestra.id);
+        this.palestraUpdateDialog.open(palestra.id).subscribe((): void => {
+          this.fetchData();
+        });
     }
 
     onDelete(palestra: TPalestra) {
-        this.palestraDeleteDialog.open(palestra.id);
+        this.palestraDeleteDialog.open(palestra.id).subscribe((): void => {
+            this.fetchData();
+        });
     }
 
-    onSave(): void {
-        this.submitted = true;
-
-
+    private fetchData(): void {
+        this.palestraService.getAll().subscribe((body: TPalestra[]): void => {
+            this.palestras = body;
+        });
     }
 }

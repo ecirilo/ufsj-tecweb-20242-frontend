@@ -2,7 +2,7 @@
     <div class="col-12">
         <full-calendar [options]="calendarOptions">
             <ng-template #eventContent let-arg>
-                <b>{{arg.timeText}}</b>
+                <b>{{arg.timeText}}</b><br><br>
                 <i>{{arg.event.title}}</i>
             </ng-template>
         </full-calendar>

@@ -1,48 +1,77 @@
 <p-dialog header="Palestras"
           class="p-fluid"
           [(visible)]="opened"
-          [style]="{width: '450px'}"
+          [style]="{ width: '800px' }"
           [modal]="true"
           (onHide)="onClose()">
     <ng-template pTemplate="content">
-        <div class="field">
-            <label for="name">Titulo</label>
-            <input type="text" pInputText id="name" [(ngModel)]="palestra.titulo" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !palestra.titulo}"/>
-            <small class="ng-dirty ng-invalid" *ngIf="submitted && !palestra.titulo">Titulo é obrigatório.</small>
+        <div class="grid">
+            <div class="col-6">
+                <div class="field">
+                    <label for="name">Titulo</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="palestra.titulo" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !palestra.titulo}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !palestra.titulo">Titulo é obrigatório.</small>
+                </div>
+                <div class="field">
+                    <label for="description">Data</label>
+                    <p-calendar
+                            inputId="dataHora"
+                            [(ngModel)]="palestra.dataHora"
+                            [showTime]="false"
+                            [minDate]="minDate"
+                            [maxDate]="maxDate"
+                            [inline]="true"
+                            [showOtherMonths]="false"
+                            [showClear]="true"
+                            [hourFormat]="'24'"
+                            [showIcon]="true"
+                            [iconDisplay]="'input'">
+                        <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+                            <i class="pi pi-calendar pointer-events-none" (click)="clickCallBack($event)"></i>
+                        </ng-template>
+                    </p-calendar>
+                </div>
+                <div class="field">
+                    <label for="description">Hora</label>
+                    <p-calendar
+                            inputId="dataHora"
+                            [showIcon]="true"
+                            [iconDisplay]="'input'"
+                            [timeOnly]="true"
+                            [inline]="true"
+                            (onSelect)="onTimeSelect($event)">
+                        <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+                            <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
+                        </ng-template>
+                    </p-calendar>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="field">
+                    <label for="name">Palestrante</label>
+                    <input pInputText
+                           required
+                           autofocus
+                           id="palestrante"
+                           type="text"
+                           [(ngModel)]="palestra.palestrante"
+                           [ngClass]="{'ng-invalid ng-dirty' : submitted && !palestra.palestrante}"/>
+                    <small *ngIf="submitted && !palestra.palestrante"
+                           class="ng-dirty ng-invalid">
+                        Palestrante é obrigatório.
+                    </small>
+                </div>
+                <div class="field">
+                    <label for="description">Descricao</label>
+                    <textarea pInputTextarea
+                              required
+                              id="description"
+                              [(ngModel)]="palestra.descricao"
+                              [style]="{ height: '465px', resize: 'none' }"></textarea>
+                </div>
+            </div>
         </div>
-        <div class="field">
-            <label for="description">Data/Hora</label>
-            <p-calendar
-                    inputId="dataHora"
-                    [ngModel]="palestra.dataHora"
-                    [showTime]="false"
-                    [hourFormat]="'24'" />
-        </div>
-        <div class="field">
-            <label for="description">Hora</label>
-            <p-calendar
-                    inputId="dataHora"
-                    [(ngModel)]="palestra.dataHora"
-                    [timeOnly]="true" />
-        </div>
-        <div class="field">
-            <label for="description">Descricao</label>
-            <textarea id="description" pInputTextarea [(ngModel)]="palestra.descricao" required rows="3" cols="20"></textarea>
-        </div>
-        <div class="field">
-            <label for="name">Palestrante</label>
-            <input pInputText
-                   required
-                   autofocus
-                   id="palestrante"
-                   type="text"
-                   [(ngModel)]="palestra.palestrante"
-                   [ngClass]="{'ng-invalid ng-dirty' : submitted && !palestra.palestrante}"/>
-            <small *ngIf="submitted && !palestra.palestrante"
-                   class="ng-dirty ng-invalid">
-                Palestrante é obrigatório.
-            </small>
-        </div>
+
     </ng-template>
 
     <ng-template pTemplate="footer">

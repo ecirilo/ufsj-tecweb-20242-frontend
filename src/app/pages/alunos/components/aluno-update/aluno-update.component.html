@@ -1,0 +1,19 @@
+<p-dialog [(visible)]="updateDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="name">Matricula</label>
+            <input type="text" pInputText id="matricula" [(ngModel)]="aluno.matricula" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !aluno.matricula}"/>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !aluno.matricula">Matricula é obrigatória.</small>
+        </div>
+        <div class="field">
+            <label for="name">Nome</label>
+            <input type="text" pInputText id="name" [(ngModel)]="aluno.nome" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !aluno.nome}"/>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !aluno.nome">Nome é obrigatório.</small>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="onClose()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="onSave()"></button>
+    </ng-template>
+</p-dialog>

@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MessageService} from 'primeng/api';
 import {TPalestra} from "../../model/palestra.model";
 import {PalestraService} from "../../service/palestra.service";
 import {TAluno} from "../../model/aluno.model";
 import {AlunoService} from "../../service/aluno.service";
+import {AlunoUpdateComponent} from "./components/aluno-update/aluno-update.component";
 
 @Component({
     templateUrl: './aluno.component.html',
@@ -11,15 +12,14 @@ import {AlunoService} from "../../service/aluno.service";
 })
 export class AlunoComponent implements OnInit {
 
-    updateDialog: boolean = false;
+    @ViewChild('alunoUpdateDialog')
+    alunoUpdateDialog!: AlunoUpdateComponent;
 
     deleteDialog: boolean = false;
 
     alunos: TAluno[] = [];
 
     aluno: Partial<TAluno> = {};
-
-    submitted: boolean = false;
 
     cols: any[] = [];
 
@@ -29,64 +29,45 @@ export class AlunoComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.alunoService.getAll().subscribe((body: TAluno[]): void => {
-            this.alunos = body;
-        });
-
         this.cols = [
             { field: 'id', header: 'id' },
             { field: 'matricula', header: 'Matricula' },
             { field: 'nome', header: 'Nome' },
         ];
+
+        this.fetchData();
     }
 
     onOpenNew(): void {
-        this.aluno = {};
-        this.submitted = false;
-        this.updateDialog = true;
+        this.alunoUpdateDialog.open().subscribe((): void => {
+          this.fetchData();
+        });
     }
 
     onEdit(aluno: TAluno): void {
-        this.aluno = aluno;
-        this.updateDialog = true;
+        this.alunoUpdateDialog.open(aluno.id).subscribe((): void => {
+            this.fetchData();
+        });
     }
 
-    onDelete(palestra: TPalestra): void {
+    onDelete(aluno: TAluno): void {
         this.deleteDialog = true;
-        this.aluno = palestra;
+        this.aluno = aluno;
     }
 
     onConfirmDelete() {
         this.deleteDialog = false;
         this.alunoService.delete(this.aluno.id as number)
             .subscribe((): void => {
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Aluno Removido', life: 3000 });
                 this.aluno = {};
+                this.fetchData();
+                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Aluno Removido', life: 3000 });
             });
     }
 
-    onHideDialog(): void {
-        this.updateDialog = false;
-        this.submitted = false;
-    }
-
-    onSave(): void {
-        this.submitted = true;
-
-        if (this.aluno.id) {
-            this.alunoService.update(this.aluno as TAluno)
-                .subscribe((_aluno: TAluno): void => {
-                    this.aluno = {};
-                    this.updateDialog = false;
-                    this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Aluno Atualizado', life: 3000 });
-                });
-        } else {
-            this.alunoService.create(this.aluno as TAluno)
-                .subscribe((_aluno: TAluno): void => {
-                    this.aluno = {};
-                    this.updateDialog = false;
-                    this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Aluno Criado', life: 3000 });
-                });
-        }
+    private fetchData(): void {
+        this.alunoService.getAll().subscribe((body: TAluno[]): void => {
+            this.alunos = body;
+        });
     }
 }

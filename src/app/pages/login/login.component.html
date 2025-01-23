@@ -1,0 +1,36 @@
+<div class="flex align-items-center justify-content-center h-screen lg:px-8 md:px-6 px-4 py-8 surface-ground">
+    <div class="surface-card p-8 shadow-2 border-round w-full lg:w-4">
+        <div class="text-center mb-8">
+            <div class="text-900 text-3xl font-medium mb-3">Secomp</div>
+        </div>
+
+        <div class="mb-4">
+            <div class="field">
+                <label class="block text-900 font-medium mb-2" for="email">Email</label>
+                <input pInputText
+                       class="w-full"
+                       id="email"
+                       type="text"
+                       [(ngModel)]="username">
+            </div>
+
+            <div class="field">
+                <label class="block text-900 font-medium mb-2" for="password">Password</label>
+                <input pInputText
+                       class="w-full mb-3"
+                       id="password"
+                       type="password"
+                       [(ngModel)]="password">
+            </div>
+        </div>
+
+        <button pButton
+                pRipple
+                class="w-full mt-5 h-6"
+                style="height: 50px;"
+                label="Entrar"
+                icon="pi pi-user"
+                (click)="onLogin()">
+        </button>
+    </div>
+</div>
