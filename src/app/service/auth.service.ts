@@ -1,29 +1,24 @@
-import {Observable, tap} from "rxjs";
-import {HttpClient} from "@angular/common/http";
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
+import {Location} from '@angular/common';
+import {AuthServerProvider} from "../auth/auth-session.provider";
 
-@Injectable({
-    providedIn: 'root'
-})
+
+@Injectable({providedIn: 'root'})
 export class AuthService {
-    constructor(private http: HttpClient) {}
+    constructor(
+        private location: Location,
+        private authServerProvider: AuthServerProvider
+    ) {}
 
-    login(username: string,
-          password: string): Observable<any> {
-        return this.http.post(
-            '/api/login',
-            {
-                nome: username,
-                senha: password}
-            )
-            .pipe(tap(response => this.setSession(response)));
+    login(): void {
+        location.href = `${location.origin}${this.location.prepareExternalUrl(
+            'oauth2/authorization/oidc'
+        )}`;
     }
 
-    private setSession(authResult: any): void {
-        console.log("Requisicao ==================");
-        console.log(authResult);
-        console.log("==================");
-        localStorage
-            .setItem('token', authResult.token);
+    logout(): void {
+        this.authServerProvider.logout().subscribe((logout: any) : void => {
+            window.location.href = `${logout.logoutUrl}`;
+        });
     }
 }

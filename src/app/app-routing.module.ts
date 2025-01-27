@@ -1,13 +1,11 @@
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { AppLayoutComponent } from "./layout/app.layout.component";
-import {LoginComponent} from "./pages/login/login.component";
 import {AuthGuard} from "./auth/auth.guard";
 
 @NgModule({
     imports: [
         RouterModule.forRoot([
-            { path: 'login', component: LoginComponent },
             {
                 path: '',
                 component: AppLayoutComponent,

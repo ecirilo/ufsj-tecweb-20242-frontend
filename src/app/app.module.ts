@@ -6,8 +6,7 @@ import { AppLayoutModule } from './layout/app.layout.module';
 import { PalestraService } from "./service/palestra.service";
 import { SharedModule } from "./shared/shared.module";
 import { FullCalendarModule } from "@fullcalendar/angular";
-import { LoginModule } from "./pages/login/login.module";
-import {AuthService} from "./service/auth.service";
+import {UsuarioService} from "./service/usuario.service";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {TokenInterceptor} from "./auth/token.interceptor";
 
@@ -19,14 +18,13 @@ import {TokenInterceptor} from "./auth/token.interceptor";
         SharedModule,
         AppRoutingModule,
         AppLayoutModule,
-        FullCalendarModule,
-        LoginModule
+        FullCalendarModule
     ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
         PalestraService,
-        AuthService,
+        UsuarioService,
     ],
     bootstrap: [AppComponent]
 })

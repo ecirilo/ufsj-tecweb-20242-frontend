@@ -1,33 +1,33 @@
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
+import {Observable, tap} from "rxjs";
+import {AuthService} from "../service/auth.service";
+import {UsuarioService} from "../service/usuario.service";
 
 @Injectable({
     providedIn: 'root'
 })
 export class TokenInterceptor implements
     HttpInterceptor {
-    intercept(req: HttpRequest<any>,
-              next: HttpHandler):
-        Observable<HttpEvent<any>> {
-        const token =
-            localStorage.getItem('token');
+    constructor(
+        private loginService: AuthService,
+        private usuarioService: UsuarioService,
+    ) {}
 
-        console.log("Interceptor ==================");
-        console.log(token);
-        console.log("==================");
-
-        if (token) {
-            const cloned = req.clone(
-                {
-                    headers: req
-                        .headers
-                        .set('Authorization',
-                            `Bearer ${token}`)
-                });
-            return next.handle(cloned);
-        } else {
-            return next.handle(req);
-        }
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        return next.handle(request).pipe(
+            tap({
+                error: (err: HttpErrorResponse): void => {
+                    if (
+                        err.status === 401 &&
+                        err.url &&
+                        !err.url.includes('/api/usuarios/logados') &&
+                        this.usuarioService.isAuthenticated()
+                    ) {
+                        this.loginService.login();
+                    }
+                },
+            })
+        );
     }
 }
