@@ -10,19 +10,12 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { CalendarRoutingModule } from './calendar-routing.module';
 import {FullCalendarModule} from "@fullcalendar/angular";
+import {SharedModule} from "../../shared/shared.module";
 
 @NgModule({
     imports: [
-        CommonModule,
-        FormsModule,
-        ChartModule,
-        MenuModule,
-        TableModule,
-        StyleClassModule,
-        PanelMenuModule,
-        ButtonModule,
-        CalendarRoutingModule,
-        FullCalendarModule
+      SharedModule,
+      CalendarRoutingModule
     ],
     declarations: [CalendarComponent]
 })

@@ -21,23 +21,8 @@ import {AlunoUpdateComponent} from "./components/aluno-update/aluno-update.compo
 
 @NgModule({
     imports: [
-        AlunoRoutingModule,
-        CommonModule,
-        TableModule,
-        FileUploadModule,
-        FormsModule,
-        ButtonModule,
-        RippleModule,
-        ToastModule,
-        ToolbarModule,
-        RatingModule,
-        InputTextModule,
-        InputTextareaModule,
-        DropdownModule,
-        RadioButtonModule,
-        InputNumberModule,
-        DialogModule,
-        SharedModule
+      SharedModule,
+      AlunoRoutingModule,
     ],
     declarations: [AlunoComponent, AlunoUpdateComponent]
 })

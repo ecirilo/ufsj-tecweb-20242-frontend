@@ -1,5 +1,3 @@
-import * as dayjs from "dayjs";
-
 export type TPalestra = {
     id: number;
     titulo: string;

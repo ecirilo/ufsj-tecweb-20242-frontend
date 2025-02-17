@@ -1,81 +1,81 @@
 <p-dialog header="Palestras"
           class="p-fluid"
           [(visible)]="opened"
-          [style]="{ width: '800px' }"
+          [style]="{ width: '900px' }"
           [modal]="true"
           (onHide)="onClose()">
-    <ng-template pTemplate="content">
-        <div class="grid">
-            <div class="col-6">
-                <div class="field">
-                    <label for="name">Titulo</label>
-                    <input type="text" pInputText id="name" [(ngModel)]="palestra.titulo" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !palestra.titulo}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !palestra.titulo">Titulo é obrigatório.</small>
-                </div>
-                <div class="field">
-                    <label for="description">Data</label>
-                    <p-calendar
-                            inputId="dataHora"
-                            [(ngModel)]="palestra.dataHora"
-                            [showTime]="false"
-                            [minDate]="minDate"
-                            [maxDate]="maxDate"
-                            [inline]="true"
-                            [showOtherMonths]="false"
-                            [showClear]="true"
-                            [hourFormat]="'24'"
-                            [showIcon]="true"
-                            [iconDisplay]="'input'">
-                        <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
-                            <i class="pi pi-calendar pointer-events-none" (click)="clickCallBack($event)"></i>
-                        </ng-template>
-                    </p-calendar>
-                </div>
-                <div class="field">
-                    <label for="description">Hora</label>
-                    <p-calendar
-                            inputId="dataHora"
-                            [showIcon]="true"
-                            [iconDisplay]="'input'"
-                            [timeOnly]="true"
-                            [inline]="true"
-                            (onSelect)="onTimeSelect($event)">
-                        <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
-                            <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
-                        </ng-template>
-                    </p-calendar>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="field">
-                    <label for="name">Palestrante</label>
-                    <input pInputText
-                           required
-                           autofocus
-                           id="palestrante"
-                           type="text"
-                           [(ngModel)]="palestra.palestrante"
-                           [ngClass]="{'ng-invalid ng-dirty' : submitted && !palestra.palestrante}"/>
-                    <small *ngIf="submitted && !palestra.palestrante"
-                           class="ng-dirty ng-invalid">
-                        Palestrante é obrigatório.
-                    </small>
-                </div>
-                <div class="field">
-                    <label for="description">Descricao</label>
-                    <textarea pInputTextarea
-                              required
-                              id="description"
-                              [(ngModel)]="palestra.descricao"
-                              [style]="{ height: '465px', resize: 'none' }"></textarea>
-                </div>
-            </div>
+  <ng-template pTemplate="content">
+    <div [formGroup]="formGroup">
+      <div class="grid">
+        <div class="col-6">
+          <div class="field">
+            <label for="titulo">Título</label>
+            <input pInputText id="titulo" formControlName="titulo" required autofocus
+                   [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('titulo')?.invalid}"/>
+            <small *ngIf="submitted && formGroup.get('titulo')?.invalid">Título é obrigatório.</small>
+          </div>
+
+          <div class="field">
+            <label for="descricao">Descrição</label>
+            <textarea pInputTextarea
+                      id="descricao"
+                      formControlName="descricao"
+                      [style]="{ height: '465px', resize: 'none' }">
+            </textarea>
+          </div>
         </div>
 
-    </ng-template>
+        <div class="col-6">
+          <div class="field">
+            <label for="palestrante">Palestrante</label>
+            <input pInputText id="palestrante" formControlName="palestrante" required
+                   [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('palestrante')?.invalid}"/>
+            <small *ngIf="submitted && formGroup.get('palestrante')?.invalid">Palestrante é obrigatório.</small>
+          </div>
 
-    <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="onClose()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="onSave()"></button>
-    </ng-template>
+          <div class="field">
+            <label for="dataHora">Data</label>
+            <p-calendar id="dataHora"
+                        inputId="dataHora"
+                        formControlName="dataHora"
+                        [showTime]="false"
+                        [minDate]="minDate"
+                        [maxDate]="maxDate"
+                        [showOtherMonths]="false"
+                        [showClear]="true"
+                        [hourFormat]="'24'"
+                        [showIcon]="true">
+            </p-calendar>
+          </div>
+
+          <div class="field">
+            <label for="hora">Hora</label>
+            <p-calendar id="hora"
+                        inputId="hora"
+                        [showIcon]="true"
+                        [timeOnly]="true"
+                        [inline]="true"
+                        (onSelect)="onTimeSelect($event)">
+            </p-calendar>
+          </div>
+
+          <div *ngIf="qrCode()"
+               class="field">
+            <div class="flex justify-content-center">
+              <qrcode
+                [qrdata]="qrCode()"
+                [errorCorrectionLevel]="'M'"
+                [width]="280">
+              </qrcode>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="onClose()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="onSave()"></button>
+  </ng-template>
 </p-dialog>

@@ -1,0 +1,46 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="card px-6 py-6">
+      <p-toast></p-toast>
+
+      <p-table #dt
+               dataKey="id"
+               responsiveLayout="scroll"
+               currentPageReportTemplate="Página {first} - {last}"
+               [value]="presencas"
+               [columns]="cols"
+               [rows]="10"
+               [paginator]="true"
+               [rowsPerPageOptions]="[10,20,30]"
+               [showCurrentPageReport]="true"
+               [rowHover]="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="palestra">Palestra</th>
+            <th pSortableColumn="aluno">Aluno</th>
+            <th pSortableColumn="matricula">Matrícula</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-presenca>
+          <tr>
+            <td style="width:60%; min-width:10rem;">
+              <span class="p-column-title">Palestra</span>
+              {{ presenca.palestra.titulo }}
+            </td>
+            <td style="width:30%; min-width:10rem;">
+              <span class="p-column-title">Aluno</span>
+              {{ presenca.aluno.nome }}
+            </td>
+            <td style="width:10%; min-width:10rem;">
+              <span class="p-column-title">Matrícula</span>
+              {{ presenca.aluno.matricula }}
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorright" let-state>
+          Presenças: {{ state.totalRecords }}
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {TPalestra} from "../model/palestra.model";
 import {BehaviorSubject, Observable, of, tap} from "rxjs";
@@ -19,6 +19,19 @@ export class AlunoService {
 
     get(id: number): Observable<TAluno> {
         return this.http.get<TAluno>(`/api/alunos/${id}`);
+    }
+
+    getByMatricula(matricula: string): Observable<TAluno> {
+        return this.http.get<TAluno>(`/api/alunos/matriculas/${matricula}`);
+    }
+
+    count(): Observable<number> {
+        return this.http.head<void>('/api/alunos',
+          { observe: 'response'}
+        ).pipe(map((_response: HttpResponse<void>): number => {
+          console.log(_response);
+          return Number(_response.headers.get('X-Total-Count'));
+        }));
     }
 
     create(aluno: TAluno): Observable<TAluno> {

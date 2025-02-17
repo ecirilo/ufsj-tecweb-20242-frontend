@@ -4,6 +4,7 @@ import {TPalestra} from "../../model/palestra.model";
 import {PalestraService} from "../../service/palestra.service";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {PalestraUpdateDialogComponent} from "./components/palestra-update-dialog/palestra-update.dialog.component";
+import {Subject, take, takeUntil} from "rxjs";
 
 @Component({
     templateUrl: './palestra.component.html',
@@ -18,9 +19,9 @@ export class PalestraComponent implements OnInit {
 
     palestra: Partial<TPalestra> = {};
 
-    submitted: boolean = false;
-
     cols: any[] = [];
+
+    private unsubscribeSink$: Subject<boolean> = new Subject<boolean>();
 
     constructor(
         private palestraService: PalestraService,
@@ -38,25 +39,33 @@ export class PalestraComponent implements OnInit {
     }
 
     onOpenNew(): void {
-        this.palestraUpdateDialog.open().subscribe((): void => {
+        this.palestraUpdateDialog.open()
+          .pipe(take(1))
+          .subscribe((): void => {
             this.fetchData();
         });
     }
 
     onEdit(palestra: TPalestra): void {
-        this.palestraUpdateDialog.open(palestra.id).subscribe((): void => {
+        this.palestraUpdateDialog.open(palestra.id)
+          .pipe(take(1))
+          .subscribe((): void => {
           this.fetchData();
         });
     }
 
-    onDelete(palestra: TPalestra) {
-        this.palestraDeleteDialog.open(palestra.id).subscribe((): void => {
+    onDelete(palestra: TPalestra): void {
+        this.palestraDeleteDialog.open(palestra.id)
+          .pipe(take(1))
+          .subscribe((): void => {
             this.fetchData();
         });
     }
 
     private fetchData(): void {
-        this.palestraService.getAll().subscribe((body: TPalestra[]): void => {
+        this.palestraService.getAll()
+          .pipe(takeUntil(this.unsubscribeSink$))
+          .subscribe((body: TPalestra[]): void => {
             this.palestras = body;
         });
     }
